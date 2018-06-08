@@ -1,0 +1,21 @@
+# .NET
+
+*.DS_Store
+*.db
+*.log
+*.user
+
+**/.vscode/*
+**/.vs/*
+
+**/[Oo]bj/*
+**/[Bb]in/*
+**/packages/*
+**/TestResults/*
+
+# ---
+
+# Qt
+
+**/build-*/*
+*.pro.user*
