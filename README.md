@@ -15,4 +15,4 @@ Frontend fetches it, makes some processing and shows the result to user:
 
 ![QML application](/img/frontend.png "QML application")
 
-For more details read the following article: https://retifrav.github.io/blog/2018/06/09/xmlhttprequest-from-qml/
+For more details read the following article: https://retifrav.github.io/blog/2018/06/09/qml-xmlhttprequest/
