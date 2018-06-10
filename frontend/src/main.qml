@@ -13,6 +13,7 @@ Window {
     title: qsTr("XMLHttpRequest")
 
     property int fontSize: 18
+    property int rectsRadius: 5
 
     Rectangle {
         id: background
@@ -31,7 +32,7 @@ Window {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
                     border.width: 1
-                    radius: 5
+                    radius: rectsRadius
 
                     ScrollView {
                         anchors.fill: parent
@@ -46,15 +47,25 @@ Window {
                             selectByMouse: true
                             readOnly: true
                         }
+                        visible: !progressBar.visible
+                    }
+                    Rectangle {
+                        id: progressBar
+                        anchors.fill: parent
+                        color: background.color
+                        ProgressBar {
+                            anchors.fill: parent
+                            indeterminate: true
+                        }
+                        visible: false
                     }
                 }
 
-                Rectangle{
+                Rectangle {
                     Layout.fillWidth: true
                     Layout.preferredHeight: url.height + 15
                     border.width: 1
-                    radius: 5
-
+                    radius: rectsRadius
                     TextInput {
                         id: url
                         anchors.verticalCenter: parent.verticalCenter
@@ -62,12 +73,13 @@ Window {
                         clip: true
                         leftPadding: 10
                         rightPadding: 10
-                        text: "http://localhost:5000/api/values"
+                        text: "http://0.0.0.0:5000/api/values"
                         color: "blue"
                         horizontalAlignment: TextInput.AlignHCenter
                         font.pixelSize: fontSize
                         selectByMouse: true
                     }
+                    visible: !progressBar.visible
                 }
                 Button {
                     id: btn
@@ -78,8 +90,9 @@ Window {
                     padding: 15
                     background: Rectangle {
                         color: btn.down ? "#bbb" : "#ccc"
-                        radius: 5
+                        radius: rectsRadius
                     }
+                    visible: !progressBar.visible
                     onClicked: {
                         results.text = "";
                         request(url.text, function (o) {
@@ -100,26 +113,12 @@ Window {
                             }
                             else
                             {
-                                results.text = "Some error has occured";
+                                results.text = "Some error has occurred";
                             }
                         });
                     }
                 }
             }
-        }
-    }
-
-    Window {
-        id: progressBar
-        flags: Qt.FramelessWindowHint
-        modality: Qt.ApplicationModal
-        width: root.width
-        height: root.height
-        color: "#aaa"
-
-        ProgressBar {
-            anchors.fill: parent
-            indeterminate: true
         }
     }
 
@@ -138,8 +137,19 @@ Window {
     function request(url, callback) {
         showBusy(true);
         var xhr = new XMLHttpRequest();
+//        xhr.onerror = (function(myxhr) {
+//            xhr.status = 500;
+//            //console.log("error");
+//            callback(myxhr);
+//        })(xhr);
+//        xhr.onabort = (function(myxhr) {
+//                console.log("aborted");
+//        })(xhr);
         xhr.onreadystatechange = (function(myxhr) {
             return function() {
+//                console.log(myxhr.readyState);
+//                console.log(myxhr.status);
+//                console.log(myxhr.statusText);
 //                if (xhr.readyState === XMLHttpRequest.HEADERS_RECEIVED)
 //                {
 //                    console.log("[Headers]");
